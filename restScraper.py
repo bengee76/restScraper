@@ -1,4 +1,3 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,7 +10,7 @@ from bs4 import BeautifulSoup
 driver_path = "/usr/bin/chromedriver"
 driver = webdriver.Chrome()
 
-name = ("Gdansk")
+name = ("Gdynia")
 
 def parse(soup):
     restaurants = soup.find_all('div', class_='UaQhfb')
@@ -20,6 +19,7 @@ def parse(soup):
         name = restaurant.find('div', class_='qBF1Pd').text
         print(name)
         counter += 1
+    print(counter)
 
 try:
     driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
@@ -33,7 +33,6 @@ try:
         try:
             driver.find_element(By.CLASS_NAME, 'HlvSq')
             soup = BeautifulSoup(driver.page_source, 'html.parser')
-            time.sleep(7)
             break
         except NoSuchElementException:
             driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollableElement)
