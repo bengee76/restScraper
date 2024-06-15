@@ -5,8 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 
-
-
 driver_path = "/usr/bin/chromedriver"
 driver = webdriver.Chrome()
 
