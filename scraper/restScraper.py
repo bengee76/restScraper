@@ -4,20 +4,42 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
+import json
 
 driver_path = "/usr/bin/chromedriver"
 driver = webdriver.Chrome()
 
-name = ("Gdynia")
+name = ("Lebork")
+
+def doText(element):
+    if element:
+        element_text = element.text
+    else:
+        element_text = "None"
+    return element_text
+
 
 def parse(soup):
+    restaurantsData = []
     restaurants = soup.find_all('div', class_='UaQhfb')
-    counter = 0
     for restaurant in restaurants:
-        name = restaurant.find('div', class_='qBF1Pd').text
-        print(name)
-        counter += 1
-    print(counter)
+        name = restaurant.find('div', class_='qBF1Pd')
+        rating = restaurant.find('span', class_='MW4etd')
+        type =restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(1) > span')
+        street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(3) > span:nth-child(2)')
+        if street:
+            pass
+        else:
+            street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(2) > span:nth-child(2)')
+
+        restDict = {"name": doText(name),
+                    "rating": doText(rating),
+                    "type": doText(type),
+                    "street": doText(street)}
+        restaurantsData.append(restDict)
+    json_data = json.dumps(restaurantsData)
+
+    print(json_data)
 
 try:
     driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
