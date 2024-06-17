@@ -9,7 +9,7 @@ import json
 driver_path = "/usr/bin/chromedriver"
 driver = webdriver.Chrome()
 
-name = ("Lebork")
+name = "Lebork"
 
 def doText(element):
     if element:
@@ -27,9 +27,7 @@ def parse(soup):
         rating = restaurant.find('span', class_='MW4etd')
         type =restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(1) > span')
         street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(3) > span:nth-child(2)')
-        if street:
-            pass
-        else:
+        if not street:
             street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(2) > span:nth-child(2)')
 
         restDict = {"name": doText(name),
@@ -37,8 +35,8 @@ def parse(soup):
                     "type": doText(type),
                     "street": doText(street)}
         restaurantsData.append(restDict)
-    json_data = json.dumps(restaurantsData)
 
+    json_data = json.dumps(restaurantsData)
     print(json_data)
 
 try:
