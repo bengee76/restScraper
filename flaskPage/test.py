@@ -1,2 +1,11 @@
-for i in range(2, 4):
-    print(i)
+from flask import Flask, render_template
+
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return index.
+
+if __name__ == "__main__":
+    app.run(debug=True)

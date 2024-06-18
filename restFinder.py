@@ -9,8 +9,6 @@ import json
 driver_path = "/usr/bin/chromedriver"
 driver = webdriver.Chrome()
 
-name = "Lebork"
-
 def doText(element):
     if element:
         element_text = element.text
@@ -37,28 +35,28 @@ def parse(soup):
         restaurantsData.append(restDict)
 
     json_data = json.dumps(restaurantsData)
-    print(json_data)
+    return json_data
+def run(name):
+    try:
+        driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
+        button = driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button')
+        button.click()
+        scrollableElement = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[1]/div[1]'))
+        )
 
-try:
-    driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
-    button = driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button')
-    button.click()
-    scrollableElement = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[1]/div[1]'))
-    )
+        while True:
+            try:
+                driver.find_element(By.CLASS_NAME, 'HlvSq')
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                break
+            except NoSuchElementException:
+                driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollableElement)
 
-    while True:
-        try:
-            driver.find_element(By.CLASS_NAME, 'HlvSq')
-            soup = BeautifulSoup(driver.page_source, 'html.parser')
-            break
-        except NoSuchElementException:
-            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", scrollableElement)
+        return parse(soup)
 
-    parse(soup)
+    except Exception as e:
+        print(f"Error: {e}")
 
-except Exception as e:
-    print(f"Error: {e}")
-
-finally:
-    driver.quit()
+    finally:
+        driver.quit()
