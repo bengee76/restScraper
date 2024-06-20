@@ -7,20 +7,25 @@
 {% block body %}
 <div class="content">
     <h1>Results</h1>
-    
     <table>
         <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Rating</th>
             <th>Type</th>
             <th>Location</th>
         </tr>
-        <tr>
-            <td>restarakja</td>
-            <td>2</td>
-            <td>cos</td>
-            <td>dupna 7</td>
-        </tr>
+        {% for item in data %}
+            <tr>
+                <td>{{ item["id"] }}</td>
+                <td>{{ item["name"] }}</td>
+                <td>{{ item["rating"] }}</td>
+                <td>{{ item["type"] }}</td>
+                <td>{{ item["street"] }}</td>
+            </tr>
+        {% endfor %}
     </table>
+    <a href="/">Go back</a>
 </div>
+
 {% endblock %}

@@ -1,11 +1,11 @@
-from flask import Flask, render_template
+import json
 
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return index.
-
-if __name__ == "__main__":
-    app.run(debug=True)
+lista = [
+    {"name": "gamon",
+     "type": "kot"},
+    {"name": "gacek",
+     "type": "pies"}
+]
+json.dumps(lista)
+for i in lista:
+    print(i["name"])
