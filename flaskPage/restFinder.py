@@ -5,14 +5,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 
-
 def doText(element):
     if element:
         element_text = element.text
     else:
         element_text = "None"
     return element_text
-
 
 def parse(soup):
     restaurantsData = []
@@ -38,7 +36,7 @@ def parse(soup):
 
 def run(name):
     try:
-        driver_path = "/usr/bin/chromedriver"
+        driver_path = '/usr/bin/chromedriver'
         driver = webdriver.Chrome()
         driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
         button = driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button')

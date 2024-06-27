@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from restScraper import restFinder
+import restFinder
 
 app = Flask(__name__)
 
