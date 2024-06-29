@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 
@@ -33,11 +35,15 @@ def parse(soup):
         restaurantsData.append(restDict)
 
     return restaurantsData
-
 def run(name):
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    driverPath = Service('/usr/bin/chromedriver')
+    driver = webdriver.Chrome(service=driverPath, options=chrome_options)
     try:
-        driver_path = '/usr/bin/chromedriver'
-        driver = webdriver.Chrome()
         driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
         button = driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button')
         button.click()

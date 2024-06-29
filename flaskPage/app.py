@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
-import requests
+import restFinder
+
 
 app = Flask(__name__)
 
@@ -10,12 +11,8 @@ def index():
 @app.route('/scrape', methods=['POST', "GET"])
 def scrape():
     userInput = request.form['content']
-    response = requests.post('http://localhost:5001/api/scrape', json={'query': userInput})
-    if response.status_code == 200:
-        data = response.json().get('results')
-    else:
-        return "there was an error"
+    data = restFinder.run(userInput)
     return render_template('results.html', data=data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
