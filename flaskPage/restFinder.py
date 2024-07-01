@@ -26,14 +26,12 @@ def parse(soup):
         street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(3) > span:nth-child(2)')
         if not street:
             street = restaurant.select_one('div:nth-child(4) > div:nth-child(1) > span:nth-child(2) > span:nth-child(2)')
-
         restDict = {"id": counter,
                     "name": doText(name),
                     "rating": doText(rating),
                     "type": doText(type),
                     "street": doText(street)}
         restaurantsData.append(restDict)
-
     return restaurantsData
 def run(name):
     chrome_options = Options()
@@ -41,8 +39,10 @@ def run(name):
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--disable-gpu')
+
     driverPath = Service('/usr/bin/chromedriver')
     driver = webdriver.Chrome(service=driverPath, options=chrome_options)
+
     try:
         driver.get(f'https://www.google.com/maps/search/{name}+Restaurant/')
         button = driver.find_element(By.XPATH,'//*[@id="yDmH0d"]/c-wiz/div/div/div/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/div/div/button')
@@ -50,7 +50,6 @@ def run(name):
         scrollableElement = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="QA0Szd"]/div/div/div[1]/div[2]/div/div[1]/div/div/div[1]/div[1]'))
         )
-
         while True:
             try:
                 driver.find_element(By.CLASS_NAME, 'HlvSq')

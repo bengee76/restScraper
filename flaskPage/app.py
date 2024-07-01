@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/scrape', methods=['POST', "GET"])
+@app.route('/results', methods=['POST', "GET"])
 def scrape():
     userInput = request.form['content']
     data = restFinder.run(userInput)
